@@ -51,7 +51,7 @@ It's important to remember that each participant in the blockchain network is re
 ### Key generation options
 
 There are several ways you can generate keys.
-For example, you can generate key pairs using a `node-template` subcommand, the standalone [subkey](/reference/command-line-tools/subkey/) command-line program, the Polkadot-JS application, or third-party key generation utilities.
+For example, you can generate key pairs using a `solochain-template-node` subcommand, the standalone [subkey](/reference/command-line-tools/subkey/) command-line program, the Polkadot-JS application, or third-party key generation utilities.
 
 Although you could use predefined key pairs to complete this tutorial, you would never use those keys in a production environment.
 Instead of using predefined keys or the more secure `subkey` program, this tutorial illustrates how to generate keys using the Substrate node template and the `key` subcommand.
@@ -61,7 +61,7 @@ Instead of using predefined keys or the more secure `subkey` program, this tutor
 As a best practice, you should use an air-gapped computer that has never been connected to the internet when you generate keys for a production blockchain.
 At a minimum, you should disconnect from the internet before you generate any keys you intend to use on a public or private blockchain that is not under your control.
 
-However, for this tutorial, you can use the `node-template` command-line options to generate random keys locally, while remaining connected to the internet.
+However, for this tutorial, you can use the solochain-template-node` command-line options to generate random keys locally, while remaining connected to the internet.
 
 To generate keys using the node template:
 
@@ -72,7 +72,7 @@ To generate keys using the node template:
 1. Generate a random secret phrase and keys by running the following command:
 
    ```bash
-   ./target/release/node-template key generate --scheme Sr25519 --password-interactive
+   ./target/release/solochain-template-node key generate --scheme Sr25519 --password-interactive
    ```
 
 1. Type a password for the generated keys.
@@ -96,7 +96,7 @@ To generate keys using the node template:
    For example, run a command similar to the following:
 
    ```bash
-   ./target/release/node-template key inspect --password-interactive --scheme Ed25519 "pig giraffe ceiling enter weird liar orange decline behind total despair fly"
+   ./target/release/solochain-template-node key inspect --password-interactive --scheme Ed25519 "pig giraffe ceiling enter weird liar orange decline behind total despair fly"
    ```
 
 1. Type the password you used to generate the keys.
@@ -156,7 +156,7 @@ To create a new chain specification based on the local specification:
 1. Export the `local` chain specification to a file named `customSpec.json` by running the following command:
 
    ```bash
-   ./target/release/node-template build-spec --disable-default-bootnode --chain local > customSpec.json
+   ./target/release/solochain-template-node build-spec --disable-default-bootnode --chain local > customSpec.json
    ```
 
    If you open the `customSpec.json` file in a text editor, you would see that it contains several fields. One of those fields is the WebAssembly (Wasm) binary for the runtime you built using the `cargo build --release` command.
@@ -269,7 +269,7 @@ To convert a chain specification to use the raw format:
 1. Convert the `customSpec.json` chain specification to the raw format with the file name `customSpecRaw.json` by running the following command:
 
    ```bash
-   ./target/release/node-template build-spec --chain=customSpec.json --raw --disable-default-bootnode > customSpecRaw.json
+   ./target/release/solochain-template-node build-spec --chain=customSpec.json --raw --disable-default-bootnode > customSpecRaw.json
    ```
 
 ## Prepare to launch the private network
@@ -299,7 +299,7 @@ To start the first node:
 1. Start the first node using the custom chain specification by running a command similar to the following:
 
    ```bash
-   ./target/release/node-template \
+   ./target/release/solochain-template-node \
       --base-path /tmp/node01 \
       --chain ./customSpecRaw.json \
       --port 30333 \
@@ -340,7 +340,7 @@ In that terminal, verify that you see output similar to the following:
 2021-11-03 15:32:14 🏷 Node name: MyNode01
 2021-11-03 15:32:14 👤 Role: AUTHORITY
 2021-11-03 15:32:14 💾 Database: RocksDb at /tmp/node01/chains/local_testnet/db
-2021-11-03 15:32:14 ⛓  Native runtime: node-template-100 (node-template-1.tx1.au1)
+2021-11-03 15:32:14 ⛓  Native runtime: solochain-template-node-100 (solochain-template-node-1.tx1.au1)
 2021-11-03 15:32:15 🔨 Initializing Genesis block/state (state: 0x2bde…8f66, header-hash: 0x6c78…37de)
 2021-11-03 15:32:15 👴 Loading GRANDPA authority set from genesis on what appears to be first startup.
 2021-11-03 15:32:15 ⏱  Loaded block-time = 6s from block 0x6c78abc724f83285d1487ddcb1f948a2773cb38219c4674f84c727833be737de
@@ -390,7 +390,7 @@ To insert keys into the keystore:
 1. Insert the `aura` secret key generated from the `key` subcommand by running a command similar to the following:
 
    ```bash
-   ./target/release/node-template key insert --base-path /tmp/node01 \
+   ./target/release/solochain-template-node key insert --base-path /tmp/node01 \
       --chain customSpecRaw.json \
       --scheme Sr25519 \
       --suri <your-secret-seed> \
@@ -412,7 +412,7 @@ To insert keys into the keystore:
    For information about the command-line options available, run the following command:
 
    ```bash
-   ./target/release/node-template key insert --help
+   ./target/release/solochain-template-node key insert --help
    ```
 
 1. Type the password you used to generate the keys.
@@ -420,7 +420,7 @@ To insert keys into the keystore:
 1. Insert the `grandpa` secret key generated from the `key` subcommand by running a command similar to the following:
 
    ```bash
-   ./target/release/node-template key insert \
+   ./target/release/solochain-template-node key insert \
       --base-path /tmp/node01 \
       --chain customSpecRaw.json \
       --scheme Ed25519 \
@@ -468,7 +468,7 @@ To add a second validator to the private network:
 1. Start a second blockchain node by running a command similar to the following:
 
    ```bash
-   ./target/release/node-template \
+   ./target/release/solochain-template-node \
       --base-path /tmp/node02 \
       --chain ./customSpecRaw.json \
       --port 30334 \
@@ -495,7 +495,7 @@ To add a second validator to the private network:
 1. Add the `aura` secret key generated from the `key` subcommand by running a command similar to the following:
 
    ```bash
-   ./target/release/node-template key insert --base-path /tmp/node02 \
+   ./target/release/solochain-template-node key insert --base-path /tmp/node02 \
       --chain customSpecRaw.json \
       --scheme Sr25519 \
       --suri <second-participant-secret-seed> \
@@ -511,7 +511,7 @@ To add a second validator to the private network:
 1. Add the `grandpa` secret key generated from the `key` subcommand to the local keystore by running a command similar to the following:
 
    ```bash
-   ./target/release/node-template key insert --base-path /tmp/node02 \
+   ./target/release/solochain-template-node key insert --base-path /tmp/node02 \
       --chain customSpecRaw.json \
       --scheme Ed25519 --suri <second-participant-secret-seed> \
       --password-interactive \
@@ -546,7 +546,7 @@ To add a second validator to the private network:
 1. Restart the second blockchain node by running the following command:
 
    ```bash
-   ./target/release/node-template \
+   ./target/release/solochain-template-node \
       --base-path /tmp/node02 \
       --chain ./customSpecRaw.json \
       --port 30334 \
